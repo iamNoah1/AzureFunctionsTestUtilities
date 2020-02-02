@@ -15,8 +15,7 @@ namespace MediaManagement
             {
                 logger = new ListLogger();
             }
-            else
-            {
+            else{
                 logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
             }
 
