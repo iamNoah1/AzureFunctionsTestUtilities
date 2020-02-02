@@ -11,8 +11,7 @@ namespace MediaManagement
         {
             ILogger logger;
 
-            if (type == LoggerTypes.List)
-            {
+            if (type == LoggerTypes.List){
                 logger = new ListLogger();
             }
             else{
