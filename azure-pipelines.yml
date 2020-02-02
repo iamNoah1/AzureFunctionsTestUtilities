@@ -10,14 +10,36 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  project: '**/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreCLI@2
-  displayName: Build
+- task: GitVersion@5
+  displayName: gitversion
   inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: '--configuration Release' # Update this to match your need
+    configFilePath: GitVersion.yml
+
+- task: DotNetCoreCLI@2 
+  displayName: 'dotnet build' 
+  inputs: 
+    projects: '$(project)' 
+    arguments: '--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)' 
+    versioningScheme: byBuildNumber
+ 
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack' 
+  inputs: 
+    command: pack
+    packagesToPack: '$(project)' 
+    nobuild: true 
+    versioningScheme: byEnvVar 
+    versionEnvVar: GitVersion.NuGetVersion
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '86f41d1b-d3bf-45d4-b7b5-74afb83bee1c/51986b3a-cec9-4ea0-b981-37c12e2d9b2e'
+    versioningScheme: byBuildNumber
