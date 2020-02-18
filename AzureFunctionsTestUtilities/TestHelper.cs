@@ -59,6 +59,7 @@ namespace MediaManagement
     public enum LoggerTypes
     {
         Null,
-        List
+        List,
+        Array
     }
 }
