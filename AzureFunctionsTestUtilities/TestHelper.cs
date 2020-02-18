@@ -58,6 +58,7 @@ namespace MediaManagement
     {
         Null,
         List,
-        Array
+        Array,
+        Primitive
     }
 }
