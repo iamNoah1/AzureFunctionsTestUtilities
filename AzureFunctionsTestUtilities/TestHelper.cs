@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 
-namespace MediaManagement
+namespace AzureFunctions
 {
     public class TestHelper
     {
